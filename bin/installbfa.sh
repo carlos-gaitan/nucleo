@@ -194,7 +194,7 @@ function setupquestions
                 echo
             done
         fi
-        if [ "$REPLY" = "2" ]
+        if [ "$REPLY" = "1" ]
         then
             envfile=test2network/env
         fi
