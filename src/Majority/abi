@@ -1,0 +1,187 @@
+[
+  {
+    "type": "constructor",
+    "stateMutability": "nonpayable",
+    "inputs": [{
+        "name": "timeout",
+        "type": "uint256",
+        "internalType": "uint256"
+    }]
+  },
+  {
+    "name": "adminChange",
+    "type": "event",
+    "anonymous": false,
+    "inputs": [{
+        "name": "admin",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      },{
+        "name": "promotion",
+        "type": "bool",
+        "indexed": false,
+        "internalType": "bool"
+    }]
+  },
+  {
+    "name": "voteCast",
+    "type": "event",
+    "anonymous": false,
+    "inputs": [{
+        "name": "voter",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      },{
+        "name": "victim",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      },{
+        "name": "promotion",
+        "type": "bool",
+        "indexed": false,
+        "internalType": "bool"
+    }]
+  },
+  {
+    "name": "council",
+    "type": "function",
+    "stateMutability": "view",
+    "inputs": [{
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+    }],
+    "outputs": [{
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+    }]
+  },
+  {
+    "name": "councilLength",
+    "type": "function",
+    "stateMutability": "view",
+    "inputs": [],
+    "outputs": [{
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+    }]
+  },
+  {
+    "type": "function",
+    "name": "isCouncil",
+    "stateMutability": "view",
+    "inputs": [{
+        "name": "subject",
+        "type": "address",
+        "internalType": "address"
+    }],
+    "outputs": [{
+        "name": "",
+        "type": "bool",
+        "internalType": "bool"
+    }]
+  },
+  {
+    "name": "mayVote",
+    "type": "function",
+    "stateMutability": "view",
+    "inputs": [{
+        "name": "voter",
+        "type": "address",
+        "internalType": "address"
+      },{
+        "name": "victim",
+        "type": "address",
+        "internalType": "address"
+      },{
+        "name": "promotion",
+        "type": "bool",
+        "internalType": "bool"
+    }],
+    "outputs": [{
+        "name": "",
+        "type": "bool",
+        "internalType": "bool"
+    }]
+  },
+  {
+    "name": "setTimeout",
+    "type": "function",
+    "stateMutability": "nonpayable",
+    "inputs": [{
+        "internalType": "uint256",
+        "name": "timeout",
+        "type": "uint256"
+    }],
+    "outputs": []
+  },
+  {
+    "name": "vote",
+    "type": "function",
+    "stateMutability": "nonpayable",
+    "inputs": [{
+        "name": "victim",
+        "type": "address",
+        "internalType": "address"
+      },{
+        "name": "promotion",
+        "type": "bool",
+        "internalType": "bool"
+    }],
+    "outputs": []
+  },
+  {
+    "name": "votes",
+    "type": "function",
+    "stateMutability": "view",
+    "inputs": [{
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+    }],
+    "outputs": [{
+        "name": "voter",
+        "type": "address",
+        "internalType": "address"
+      },{
+        "name": "victim",
+        "type": "address",
+        "internalType": "address"
+      },{
+        "name": "voteStart",
+        "type": "uint256",
+        "internalType": "uint256"
+      },{
+        "name": "promotion",
+        "type": "bool",
+        "internalType": "bool"
+    }]
+  },
+  {
+    "type": "function",
+    "name": "votesLength",
+    "stateMutability": "view",
+    "inputs": [],
+    "outputs": [{
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+    }]
+  },
+  {
+    "name": "votetimeout",
+    "type": "function",
+    "stateMutability": "view",
+    "inputs": [],
+    "outputs": [{
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+    }]
+  }
+]

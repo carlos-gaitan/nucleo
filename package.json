@@ -1,0 +1,20 @@
+{
+  "name": "bfa",
+  "version": "1.0.0",
+  "description": "Blockchain Federal Argentina",
+  "dependencies": {
+    "big-integer": "^1.6.44",
+    "bignumber.js": "^9.0.0",
+    "request": "^2.88.0",
+    "require": "^2.4.20",
+    "web3": "^1.2.11",
+    "web3-eth-accounts": "^1.2.11",
+    "xmlhttprequest-ssl": "^1.5.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.bfa.ar/blockchain/nucleo.git"
+  },
+  "author": "Robert Martin-Legene",
+  "license": "GPL-2.0-only"
+}

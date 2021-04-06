@@ -1,0 +1,275 @@
+#!/usr/bin/node
+
+const   Web3                =   require( 'web3' );
+// make sure we die early if this is not installed
+const   dummy               =   require( 'web3-eth-accounts' );
+const   fs                  =   require( 'fs' );
+var     web3                =   new Web3( 'http://localhost:8545/' );
+var     myArgs              =   process.argv.slice(2);
+var     myaccount           =   myArgs[0];
+var     proof               =   myArgs[1];
+var     password            =   myArgs[2] || '';
+var     contractaddr;
+var     networkid;
+var     chainid;
+var     rawdata;
+var     estimate;
+
+if ( myArgs.length < 2 || myArgs.length > 3 )
+{
+    let     myname                  =   process.argv[1].replace(/^.*\//, '');
+    console.error( "Wrong number of arguments.");
+    console.error( "Usage: " + myname + " <account> <proof> [<privatekeypassword>]");
+    process.exit( 1 );
+}
+
+function    findMatchingFile( needle, accountdir )
+{
+    return new Promise(
+        function(resolve, reject)
+        {
+            // strip leading '0x' from the needle, if present
+            // also lowercase the name
+            needle                  =   needle.replace(/^0x/, '').toLowerCase();
+            let     haystack        =   fs.readdirSync( accountdir, 'utf8' );
+            haystack.forEach(
+                (filename) => {
+                    if ( filename.toLowerCase().endsWith('--'+needle) )
+                        resolve(accountdir + filename);
+                }
+            );
+            reject( 'Account not found. Try specifying the absolute path to your key file, or set one of $BFAHOME $BFANETWORKDIR $BFANODEDIR $KEYSTORE' );
+        }
+    );
+}
+
+function    findaccountfile( accountfile )
+{
+    return new Promise(
+        function( resolve, reject )
+        {
+            // find account file
+            // is it actually just a file?
+            if ( accountfile.includes('/') )
+            {
+                resolve( accountfile );
+                return;
+            }
+            let     accountdir;
+            // if not a file, then look (only) at the most specific directory we have been told about.
+            if ( process.env.KEYSTORE !== undefined )
+                accountdir                  =   process.env.KEYSTORE;
+            else
+            if ( process.env.BFANODEDIR !== undefined )
+                accountdir                  =   process.env.BFANODEDIR + '/keystore/';
+            else
+            if ( process.env.BFANETWORKDIR !== undefined )
+                accountdir                  =   process.env.BFANETWORKDIR + '/node/keystore/';
+            else
+            if ( process.env.BFAHOME !== undefined )
+                accountdir                  =   process.env.BFAHOME + '/network/node/keystore/';
+            else
+                accountdir                  =   process.env.HOME + '.geth/keystore';
+            findMatchingFile( myaccount, accountdir )
+            .then( resolve )
+            .catch( reject );
+        }
+    );
+}
+
+function    loadaccount( path )
+{
+    return new Promise(
+        function( resolve, reject )
+        {
+            let     contents        =   fs.readFileSync( path, 'utf8' );
+            fs.readFile( path, 'utf8', (err,data) => {
+                if ( err )
+                {
+                    reject( err );
+                    return;
+                }
+                let     keystore;
+                try {
+                    keystore        =   JSON.parse( data );
+                }
+                catch(e)
+                {
+                    reject( e );
+                    return;
+                }
+                let     w;
+                try {
+                    w               =   web3.eth.accounts.wallet.decrypt( [keystore], password );
+                }
+                catch(e)
+                {
+                    reject( e );
+                    return;
+                }
+                // Make sure we have the address properly written (instead of a
+                // filename) if that was given as parameter when starting the program.
+                if ( w === undefined )
+                {
+                    reject( "Unable to decrypt the key file." );
+                    return;
+                }
+                myaccount               =   w[0]["address"];
+                resolve();
+            });
+        }
+    );
+}
+
+function    gasestimate(method)
+{
+    return new Promise(
+        function( resolve, reject )
+        {
+            method.estimateGas()
+            .then( g  => { estimate = g } )
+            .then( resolve )
+        }
+    );
+}
+
+function getnetworkid()
+{
+    return new Promise(
+        function( resolve, reject )
+        {
+            web3.eth.net.getId()
+            .then( id => {
+                networkid                   =   id;
+                if ( networkid == 0xb10c4d39a )
+                {
+                    contractaddr            =   "0xc3cF96aF51d3c41DfBE428dE75a8E5597d4D7A7B";
+                    chainid                 =   0xbfa2018;
+                }
+                else
+                {
+                    reject( "There is insufficient information to function on this chain." );
+                    return;
+                }
+                resolve();
+            });
+        }
+    );
+}
+            
+function getnonce( account )
+{
+    return new Promise(
+        function( resolve, reject )
+        {
+            // Cuantas transacciones ya hemos hecho?
+            web3.eth.getTransactionCount( account )
+            .then( txcount => {
+                nonce                       =   txcount;
+                resolve();
+            });
+        }
+    );
+}
+
+function prepareCall()
+{
+    var     abi                     =   [
+        {
+            "name"                  : "hash",
+            "type"                  : "function",
+            "inputs"                : [ { "name": "key", "type": "string"  } ],
+            "outputs"               : [ { "name": "",    "type": "bytes32" } ],
+            "constant"              : true,
+            "payable"               : false,
+            "stateMutability"       : "pure"
+        },
+        {
+            "name"                  : "proveControl",
+            "type"                  : "function",
+            "inputs"                : [ { "name": "key", "type": "string" } ],
+            "outputs"               : [ { "name": "",    "type": "bool"   } ],
+            "constant"              : false,
+            "payable"               : false,
+            "stateMutability"       : "nonpayable"
+        }
+    ];
+    return new Promise(
+        function(resolve, reject)
+        {
+            let     p1              =   getnetworkid();
+            let     p2              =   getnonce( myaccount );
+            Promise.all([ p1, p2 ])
+            .then( () => {
+                if ( contractaddr === undefined )
+                {
+                    reject( "The contract address is not defined for this network." );
+                    return;
+                }
+                // Creá una instancia del contrato
+                var     contractInstance    =   new web3.eth.Contract(abi, contractaddr );
+                //Estimá el gas que vas a gastar
+                let     method      =   contractInstance.methods.proveControl( proof );
+//              contractInstance.methods.hash(proof).call().then( console.log );
+                rawdata             =   method.encodeABI();
+                gasestimate( method )
+                .then( resolve );
+            });
+        }
+    );
+}
+
+function    signrawtx()
+{
+    //Generá una transacción
+    let     promise             =   web3.eth.accounts.signTransaction(
+        {
+            "from"              :   myaccount,
+            "to"                :   contractaddr,
+            "nonce"             :   nonce,
+            "value"             :   0,
+            "data"              :   rawdata,
+            "gas"               :   estimate,
+            "gasPrice"          :   1000000000,
+            "common"            :
+            {
+                "customChain"   :
+                {
+                    "name"      :   "BFA 2018",
+                    "chainId"   :   chainid,
+                    "networkId" :   networkid
+                }
+            }
+        },
+        web3.eth.accounts.wallet[0].privateKey
+    );
+    return promise;
+}
+
+function    printReceipt( r )
+{
+    console.log( "blockNumber: " + r.blockNumber );
+    console.log( "transactionHash: " + r.transactionHash );
+    console.log( "Status: " + (r.status?'Transaction successful':'Transaction failed') );
+}
+
+findaccountfile( myaccount )
+.then( (path)=> { return loadaccount(path) } )
+// prepara la instancia del contrato
+.then (         prepareCall )
+// Firma "offline"
+.then( ()    => { return signrawtx() })
+// Manda la transaccion a la blockchain
+.then( tx    => {
+    console.log( "Sending this transaction: " + tx.rawTransaction );
+console.log( "TX hash: " + tx.transactionHash );
+//process.exit( 0 );
+    web3.eth.sendSignedTransaction( tx.rawTransaction )
+    //Obtené el recibo.
+    .once( 'receipt', printReceipt )
+    .catch( (e) => { console.error( "It would seem that the transaction has failed:\n" + e)} );
+})
+.catch( e    => {
+    console.error( "Oh no. Something most definitely seems to have gone wrong. What I was told is:" );
+    console.error( e );
+});

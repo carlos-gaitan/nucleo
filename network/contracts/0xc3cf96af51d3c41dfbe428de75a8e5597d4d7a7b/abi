@@ -1,0 +1,328 @@
+[
+  {
+    "name": "proofOfControlWeiAmountChanged",
+    "type": "event",
+    "anonymous": false,
+    "inputs": [
+      { "indexed": false, "name": "amount", "type": "uint256" }
+    ]
+  },
+  {
+    "name": "limitChanged",
+    "type": "event",
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "distr", "type": "address" },
+      { "indexed": true, "name": "ben", "type": "address" },
+      { "indexed": false, "name": "newLimit", "type": "uint256" }
+    ]
+  },
+  {
+    "name": "suitorApproved",
+    "type": "event",
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "suitor", "type": "address" }
+    ]
+  },
+  {
+    "name": "suitorNotApproved",
+    "type": "event",
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "suitor", "type": "address" }
+    ]
+  },
+  {
+    "name": "kickedDistributor",
+    "type": "event",
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "kicked", "type": "address" }
+    ]
+  },
+  {
+    "name": "suitorAdded",
+    "type": "event",
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "suitor", "type": "address" },
+      { "indexed": true, "name": "distr", "type": "address" }
+    ]
+  },
+  {
+    "name": "addedBeneficiary",
+    "type": "event",
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "distr", "type": "address" },
+      { "indexed": true, "name": "added", "type": "address" },
+      { "indexed": false, "name": "limit", "type": "uint256" }
+    ]
+  },
+  {
+    "name": "kickedBeneficiary",
+    "type": "event",
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "distr", "type": "address" },
+      { "indexed": true, "name": "kicked", "type": "address" }
+    ]
+  },
+  {
+    "name": "addedDistributor",
+    "type": "event",
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "added", "type": "address" },
+      { "indexed": false, "name": "top", "type": "uint256" }
+    ]
+  },
+  {
+    "name": "replenished",
+    "type": "event",
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "name": "distr", "type": "address" },
+      { "indexed": false, "name": "amount", "type": "uint256" }
+    ]
+  },
+  {
+    "name": "addBeneficiary",
+    "type": "function",
+    "constant": false,
+    "inputs": [
+      { "name": "acc", "type": "address" },
+      { "name": "limit", "type": "uint256" }
+    ],
+    "outputs": [
+      { "name": "", "type": "bool" }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable"
+  },
+  {
+    "name": "addSuitor",
+    "type": "function",
+    "constant": false,
+    "inputs": [
+      { "name": "add", "type": "address" },
+      { "name": "password", "type": "bytes32" }
+    ],
+    "outputs": [
+      { "name": "", "type": "bool" }
+    ],
+    "payable": true,
+    "stateMutability": "payable"
+  },
+  {
+    "name": "changeLimit",
+    "type": "function",
+    "constant": false,
+    "inputs": [
+      { "name": "acc", "type": "address" },
+      { "name": "limit", "type": "uint256" }
+    ],
+    "outputs": [
+      { "name": "", "type": "bool" }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable"
+  },
+  {
+    "name": "kickBeneficiary",
+    "type": "function",
+    "constant": false,
+    "inputs": [
+      { "name": "acc", "type": "address" }
+    ],
+    "outputs": [
+      { "name": "", "type": "bool" }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable"
+  },
+  {
+    "name": "kickDistributor",
+    "type": "function",
+    "constant": false,
+    "inputs": [
+      { "name": "acc", "type": "address" }
+    ],
+    "outputs": [
+      { "name": "", "type": "bool" }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable"
+  },
+  {
+    "name": "addDistributor",
+    "type": "function",
+    "constant": false,
+    "inputs": [
+      { "name": "acc", "type": "address" },
+      { "name": "top", "type": "uint256" }
+    ],
+    "outputs": [
+      { "name": "", "type": "bool" }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable"
+  },
+  {
+    "name": "proveControl",
+    "type": "function",
+    "constant": false,
+    "inputs": [
+      { "name": "key", "type": "string" }
+    ],
+    "outputs": [
+      { "name": "", "type": "bool" }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable"
+  },
+  {
+    "name": "replenish",
+    "type": "function",
+    "constant": false,
+    "inputs": [
+      { "name": "acc", "type": "address" },
+      { "name": "amount", "type": "uint256" }
+    ],
+    "outputs": [
+      { "name": "", "type": "bool" }
+    ],
+    "payable": true,
+    "stateMutability": "payable"
+  },
+  {
+    "name": "replenishAll",
+    "type": "function",
+    "constant": false,
+    "inputs": [],
+    "outputs": [
+      { "name": "", "type": "bool" }
+    ],
+    "payable": true,
+    "stateMutability": "payable"
+  },
+  {
+    "name": "replenishList",
+    "type": "function",
+    "constant": false,
+    "inputs": [
+      { "name": "accs", "type": "address[]" },
+      { "name": "amounts", "type": "uint256[]" }
+    ],
+    "outputs": [],
+    "payable": true,
+    "stateMutability": "payable"
+  },
+  {
+    "name": "setProofOfControlWeiAmount",
+    "type": "function",
+    "constant": false,
+    "inputs": [
+      { "name": "amount", "type": "uint256" }
+    ],
+    "outputs": [
+      { "name": "", "type": "bool" }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "constructor",
+    "inputs": [],
+    "payable": true,
+    "stateMutability": "payable"
+  },
+  {
+    "name": "getBeneficiariesCount",
+    "type": "function",
+    "constant": true,
+    "inputs": [],
+    "outputs": [
+      { "name": "", "type": "uint256" }
+    ],
+    "payable": false,
+    "stateMutability": "view"
+  },
+  {
+    "name": "getBeneficiaryLimit",
+    "type": "function",
+    "constant": true,
+    "inputs": [
+      { "name": "acc", "type": "address" }
+    ],
+    "outputs": [
+      { "name": "", "type": "uint256" }
+    ],
+    "payable": false,
+    "stateMutability": "view"
+  },
+  {
+    "name": "getDistributorLimit",
+    "type": "function",
+    "constant": true,
+    "inputs": [
+      { "name": "acc", "type": "address" }
+    ],
+    "outputs": [
+      { "name": "", "type": "uint256" }
+    ],
+    "payable": false,
+    "stateMutability": "view"
+  },
+  {
+    "name": "getProofOfControlWeiAmount",
+    "type": "function",
+    "constant": true,
+    "inputs": [],
+    "outputs": [
+      { "name": "", "type": "uint256" }
+    ],
+    "payable": false,
+    "stateMutability": "view"
+  },
+  {
+    "name": "hash",
+    "type": "function",
+    "constant": true,
+    "inputs": [
+      { "name": "key", "type": "string" }
+    ],
+    "outputs": [
+      { "name": "", "type": "bytes32" }
+    ],
+    "payable": false,
+    "stateMutability": "pure"
+  },
+  {
+    "name": "isBeneficiary",
+    "type": "function",
+    "constant": true,
+    "inputs": [
+      { "name": "add", "type": "address" }
+    ],
+    "outputs": [
+      { "name": "", "type": "bool" }
+    ],
+    "payable": false,
+    "stateMutability": "view"
+  },
+  {
+    "name": "isDistributor",
+    "type": "function",
+    "constant": true,
+    "inputs": [
+      { "name": "add", "type": "address" }
+    ],
+    "outputs": [
+      { "name": "", "type": "bool" }
+    ],
+    "payable": false,
+    "stateMutability": "view"
+  }
+]

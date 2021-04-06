@@ -1,0 +1,25 @@
+{
+  "config": {
+    "chainId": 200941592,
+    "homesteadBlock": 0, "eip150Block": 0, "eip155Block": 0, "eip158Block": 0, "byzantiumBlock": 4,
+    "eip150Hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "clique": { "period": 5, "epoch": 30000 }
+  },
+  "nonce": "0x0000000000000000",
+  "timestamp": "0x5baa5baa",
+  "extraData": "0x426c6f636b636861696e204665646572616c20417267656e74696e61204e494319fe7b9b3a1bebde77c5374c8e13c623e3d1b5b2342e1d075d820ed3f9d9a05967ec4055ab23fa1e46991ada2a2544468eb3673524641bf293f23ccc91c055c6478bd0ad6d19bcb58f5e7ca7b04e67f10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+  "gasLimit": "0xffeeddcc", "difficulty": "0x1", "number": "0x0", "gasUsed": "0x0",
+  "mixHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+  "coinbase": "0x0000000000000000000000000000000000000000",
+  "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+  "alloc": {
+    "bfa02a9639318f5ed1291e2cee387aa9f9d68f98": { "balance": "0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" },
+    "bfa1c42c7381a4ad32e13ce3263b639a0e0488f2": { "balance": "0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" },
+    "bfa2c97c3f59cc929e8feb1aee2aca0b38235d18": { "balance": "0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" },
+    "bfa3eb31f6526a5b29ae2302508bb6b1400d1fd1": { "balance": "0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" },
+    "bfa846ddd1fb18af693f24d316c12d8e88f4b79f": { "balance": "0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" },
+    "bfa8b1acfb51da0975274c6ebd46704c6c670a07": { "balance": "0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" },
+    "bfab583022c5c18fec70965d63985b86f96c5657": { "balance": "0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" },
+    "bfae9512c1cf4d9ce549333725c02ee8b3e5f049": { "balance": "0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" }
+  }
+}

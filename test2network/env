@@ -1,0 +1,4 @@
+export BFAHOME=${HOME}/bfa
+export BFANETWORKID=55555000000
+export BFANETWORKDIR="${BFAHOME}/test2network"
+PATH=${PATH}:${BFAHOME}/bin:${HOME}/bin

@@ -1,0 +1,69 @@
+#!/bin/bash
+# 20180618 Robert Martin-Legene <robert@nic.ar>
+
+if [ -z "${BFAHOME}" ]; then echo "\$BFAHOME not set. Did you source bfa/bin/env ?" >&2; exit 1; fi
+source ${BFAHOME}/bin/libbfa.sh || exit 1
+
+function	create
+{
+    workdir=$(  mktemp -p . -d )
+    cleanup     "$workdir"
+    json=$(	solc --optimize --combined-json abi,bin $filename	); test $? = 0
+    prefix=$(   echo "$json"    | jq -M  '.contracts | keys | .[0]'     );
+    abi=$(	echo "$json"	| jq -rM ".contracts.${prefix}.abi"	); test $? = 0
+    bin=$(	echo "$json"	| jq -rM ".contracts.${prefix}.bin"	); test $? = 0
+    # Save abi for future use
+    echo $abi > ${workdir}/abi
+    # We could save the bin, but we don't actually use it later, plus
+    # it gets stored in the blockchain
+    #echo $bin > ${workdir}/bin
+    js=$(       mktemp )
+    cleanup     "$js"
+    cat > $js <<EOT
+var mycontract  = eth.contract($abi)
+var transaction = mycontract.new( { from: eth.accounts[0], data: "0x${bin}", gas: 3000000, gasPrice: 1000000000 } )
+var rcpt
+while ( !rcpt )
+{
+  admin.sleepBlocks( 1 )
+  rcpt = eth.getTransactionReceipt( transaction.transactionHash )
+}
+var address = rcpt.contractAddress
+var pubcontract = mycontract.at(address)
+console.log( pubcontract.address )
+EOT
+    echo '*** Creating contract. Be patient.'
+    outfile=$( mktemp )
+    cleanup "$outfile"
+    geth_exec_file $js > $outfile
+    if [ ` wc -l < $outfile ` = 2 -a `tail -1 < $outfile` = "true" ]
+    then
+        addr=` head -1 < $outfile `
+        mkdir -p ${BFANETWORKDIR}/contracts
+        mv ${workdir} ${BFANETWORKDIR}/contracts/${addr}
+        echo Your new contract can be found in ${BFANETWORKDIR}/contracts/${addr}
+ 	ln -snf ${addr} ${BFANETWORKDIR}/contracts/${contractname}
+    else
+        echo 
+        echo ' *** INPUT ***'
+        echo 
+        cat $js
+        echo
+        echo ' *** OUTPUT ***'
+        echo
+        cat $outfile
+    fi
+}
+
+filename="$1"
+if [ -z "$filename" -o ! -r "$filename" ]
+then
+    echo "Specify a filename of a contract you wish to compile."
+    false
+fi
+contractname=${filename%%.sol}
+contractname=${contractname##*/}
+contractname=${contractname##contract.}
+contractname=${contractname%.*}
+prereq jq solc geth
+create

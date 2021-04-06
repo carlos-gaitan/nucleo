@@ -1,0 +1,88 @@
+[Eth]
+NetworkId = 55555000000
+SyncMode = "full"
+NoPruning = true
+NoPrefetch = false
+LightPeers = 100
+UltraLightFraction = 75
+DatabaseCache = 2048
+DatabaseFreezer = ""
+TrieCleanCache = 1024
+TrieDirtyCache = 1024
+TrieTimeout = 3600000000000
+EnablePreimageRecording = false
+EWASMInterpreter = ""
+EVMInterpreter = ""
+
+[Eth.Miner]
+GasFloor = 8000000
+GasCeil = 8000000
+GasPrice = 1000000000
+Recommit = 3000000000
+Noverify = false
+
+[Eth.Ethash]
+CacheDir = "ethash"
+CachesInMem = 2
+CachesOnDisk = 3
+DatasetDir = "/home/bfa/.ethash"
+DatasetsInMem = 1
+DatasetsOnDisk = 2
+PowMode = 0
+
+[Eth.TxPool]
+Locals = []
+NoLocals = true
+Journal = "transactions.rlp"
+Rejournal = 3600000000000
+PriceLimit = 1
+PriceBump = 10
+AccountSlots = 16
+GlobalSlots = 4096
+AccountQueue = 64
+GlobalQueue = 1024
+Lifetime = 10800000000000
+
+[Eth.GPO]
+Blocks = 20
+Percentile = 60
+
+[Shh]
+MaxMessageSize = 1048576
+MinimumAcceptedPOW = 2e-01
+RestrictConnectionBetweenLightClients = true
+
+[Node]
+DataDir = "/home/bfa/bfa/test2network/node"
+HTTPHost = "0.0.0.0"
+HTTPCors = ["*"]
+omitempty = ""
+IPCPath = "geth.ipc"
+HTTPPort = 8545
+HTTPVirtualHosts = ["*"]
+HTTPModules = ["net", "web3", "eth", "clique"]
+WSHost = "0.0.0.0"
+WSPort = 8546
+WSModules = ["net", "web3", "eth", "clique"]
+GraphQLPort = 8547
+GraphQLVirtualHosts = ["localhost"]
+
+[Node.P2P]
+MaxPeers = 50
+NoDiscovery = false
+BootstrapNodes = ["enode://7ec4dd9d5e1a2b29d6b60aa9f95677c0c3a5f9306e73d65dd3bcbfda3737a8c509b02d1eab763ce39f18cfe96423df7ee544d6c36191ec17f59ade75bc99d358@[2800:110:44:6300::aad2:2db3]:30301", "enode://7ec4dd9d5e1a2b29d6b60aa9f95677c0c3a5f9306e73d65dd3bcbfda3737a8c509b02d1eab763ce39f18cfe96423df7ee544d6c36191ec17f59ade75bc99d358@170.210.45.179:30301", "enode://82b66b13d7addcf9ffe1e4e972a105f6ccf50557161c4a0978a5d9ce595ababde609ea8a49897ae89b1d41e90551cb2e9241363238593e950ca68bd5af7c24d6@200.16.28.28:30301", "enode://59ae768ecdee632e0daceccb6f71b215392eba89230d626573f2fb4e9c0786c9a661027ab7343820ca63d96fe48ffd81ed1bf6e4d512f0ba50ec072c9efd9e4e@200.108.146.100:30301"]
+BootstrapNodesV5 = ["enode://7ec4dd9d5e1a2b29d6b60aa9f95677c0c3a5f9306e73d65dd3bcbfda3737a8c509b02d1eab763ce39f18cfe96423df7ee544d6c36191ec17f59ade75bc99d358@[2800:110:44:6300::aad2:2db3]:30301", "enode://7ec4dd9d5e1a2b29d6b60aa9f95677c0c3a5f9306e73d65dd3bcbfda3737a8c509b02d1eab763ce39f18cfe96423df7ee544d6c36191ec17f59ade75bc99d358@170.210.45.179:30301", "enode://82b66b13d7addcf9ffe1e4e972a105f6ccf50557161c4a0978a5d9ce595ababde609ea8a49897ae89b1d41e90551cb2e9241363238593e950ca68bd5af7c24d6@200.16.28.28:30301", "enode://59ae768ecdee632e0daceccb6f71b215392eba89230d626573f2fb4e9c0786c9a661027ab7343820ca63d96fe48ffd81ed1bf6e4d512f0ba50ec072c9efd9e4e@200.108.146.100:30301"]
+StaticNodes = []
+TrustedNodes = []
+ListenAddr = ":30303"
+EnableMsgEvents = false
+
+[Node.HTTPTimeouts]
+ReadTimeout = 30000000000
+WriteTimeout = 30000000000
+IdleTimeout = 120000000000
+
+[Dashboard]
+Host = "localhost"
+Port = 8080
+Refresh = 5000000000
